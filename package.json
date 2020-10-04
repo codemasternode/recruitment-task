@@ -1,23 +1,36 @@
 {
-  "name": "recruitment-task-v2",
-  "version": "1.0.0",
-  "description": "Hey there!",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon --exec babel-node ./src/index.js",
-    "start": "mode=PRODUCTION babel-node ./src/index.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --require @babel/register --recursive './test/**/*.spec.js'",
-    "debug": "node --inspect-brk ./dist/index.js",
-    "build": "babel src --out-dir ./dist --source-maps",
-    "test-watch": "NODE_ENV=test nodemon --watch test --exec './node_modules/.bin/mocha --require @babel/register --recursive './test/**/*.spec.js''"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.11.6",
-    "@babel/core": "^7.11.6",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.5"
-  }
+    "name": "recruitment-task-v2",
+    "version": "1.0.0",
+    "description": "Hey there!",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon --exec babel-node ./src/index.js",
+        "start": "mode=PRODUCTION babel-node ./src/index.js",
+        "test": "NODE_ENV=test ./node_modules/.bin/mocha --require @babel/register --recursive './test/**/*.spec.js'",
+        "debug": "node --inspect-brk ./dist/index.js",
+        "build": "babel src --out-dir ./dist --source-maps",
+        "test-watch": "NODE_ENV=test nodemon --watch test --exec './node_modules/.bin/mocha --require @babel/register --recursive './test/**/*.spec.js''"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.11.6",
+        "@babel/core": "^7.11.6",
+        "@babel/node": "^7.10.5",
+        "@babel/preset-env": "^7.11.5",
+        "eslint": "^7.10.0",
+        "eslint-config-airbnb-base": "^14.2.0",
+        "eslint-config-prettier": "^6.12.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-prettier": "^3.1.4",
+        "husky": "^4.3.0",
+        "lint-staged": "^10.4.0",
+        "prettier": "^2.1.2"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    }
 }
