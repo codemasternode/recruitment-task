@@ -1,6 +1,12 @@
-type ResultSuccess<T> = { type: 'success'; value: T };
+interface ResultSuccess<T> {
+    type: 'success';
+    value: T;
+}
 
-type ValidationError = { type: 'validation-error'; error: Error };
+interface ValidationError {
+    type: 'validation-error';
+    error: Error;
+}
 
 type Result<T> = ResultSuccess<T> | ValidationError;
 

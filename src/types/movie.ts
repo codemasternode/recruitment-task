@@ -32,9 +32,7 @@ class MovieValidation {
             }
         });
 
-        const max255CharactersRegex = new RegExp(/^[a-z]{0,255}$/);
-
-        if (!max255CharactersRegex.test(movie.title)) {
+        if (movie.title.length > 255) {
             throw {
                 type: 'validation-error',
                 error: new Error(
@@ -43,7 +41,7 @@ class MovieValidation {
             };
         }
 
-        if (!max255CharactersRegex.test(movie.director)) {
+        if (movie.director.length > 255) {
             throw {
                 type: 'validation-error',
                 error: new Error(
