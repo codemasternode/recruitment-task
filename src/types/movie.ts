@@ -7,18 +7,18 @@ type Movie = {
     director: string;
     actors?: string;
     plot?: string;
-    genres: [string];
+    genres: string[];
     posterUrl?: string;
 };
 
 class MovieValidation {
-    private genres: [string];
+    private genres: string[];
 
-    constructor(genres: [string]) {
+    constructor(genres: string[]) {
         this.genres = genres;
     }
 
-    validate(movie: Movie): Result<Movie> {
+    validate(movie: Movie): Result<undefined> {
         movie.genres.forEach((genre) => {
             if (!this.genres.includes(genre)) {
                 throw {
@@ -52,7 +52,7 @@ class MovieValidation {
 
         return {
             type: 'success',
-            value: movie,
+            value: undefined,
         };
     }
 }
