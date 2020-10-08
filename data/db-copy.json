@@ -186,6 +186,14 @@
             "actors": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
             "plot": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
             "genres": ["Sci-Fi"]
+        },
+        {
+            "id": 17,
+            "title": "Star Wars",
+            "director": "George Lucas",
+            "genres": ["Sci-Fi"],
+            "runtime": 127,
+            "year": 1998
         }
     ]
 }
