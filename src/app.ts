@@ -7,8 +7,12 @@ const app: express.Application = express();
 const PORT: string | undefined = process.env.PORT;
 
 const movieRepository = new MovieRepository('../../../data/db.json');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/movies', moviesRoutes(movieRepository));
 
 app.listen(PORT || '5000', () => {
     console.log(`Application is working on ${PORT}`);
 });
+
+export default app;

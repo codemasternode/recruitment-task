@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { Movie, MovieValidation, MovieInDB } from '../../types/movie';
+import { Movie, MovieInDB } from '../../types/movie';
+import MovieValidation from '../../services/validation/MovieValidation';
 
 interface Data {
-    movies: any[];
-    genres: any[];
+    movies: MovieInDB[];
+    genres: string[];
 }
 
 class MovieRepository {
