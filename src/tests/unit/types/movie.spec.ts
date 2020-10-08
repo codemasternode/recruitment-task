@@ -1,77 +1,149 @@
 import { expect } from 'chai';
-import { MovieValidation } from '../../../types/movie';
+import {
+    MovieValidation,
+    generateRequiredTypeError,
+} from '../../../types/movie';
 
 const movieValidation = new MovieValidation(['action']);
 
 describe('Movie Validation unit tests', () => {
-    describe('Should return Result Success Object', () => {
-        it('on properly Movie Object', (done) => {
-            const result = movieValidation.validate({
-                title: 'Star Wars',
-                year: 1977,
-                runtime: 127,
-                director: 'George’a Lucasa',
-                actors:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                plot:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                genres: ['action'],
-            });
-            expect(result).to.have.keys(['type', 'value']);
-            expect(result.type).to.equal('success');
+    describe('Should not throw error', () => {});
+    describe('Should return error', () => {
+        it('when property genres is undefined', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "year": 1977,
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "title":"abc"
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal(
+                    generateRequiredTypeError('array of strings', 'genres')
+                        .error
+                );
+            }
             done();
         });
-    });
-
-    describe('Should return Result Error', () => {
-        it('when length on property title is over 255', (done) => {
-            expect(() =>
-                movieValidation.validate({
-                    title: new Array(257).join(','),
-                    year: 1977,
-                    runtime: 127,
-                    director: 'George’a Lucasa',
-                    actors:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    plot:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    genres: ['action'],
-                })
-            ).to.throw();
+        it('when property title is undefined', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "year": 1977,
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":["action"]
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal(
+                    generateRequiredTypeError('string', 'title').error
+                );
+            }
             done();
         });
-
-        it('when length on property director is over 255', (done) => {
-            expect(() =>
-                movieValidation.validate({
-                    title: 'Star Wars',
-                    year: 1977,
-                    runtime: 127,
-                    director: new Array(257).join(','),
-                    actors:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    plot:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    genres: ['action'],
-                })
-            ).to.throw();
+        it('when property year is undefined', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "title": "asd",
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":["action"]
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal(
+                    generateRequiredTypeError('number', 'year').error
+                );
+            }
             done();
         });
-
-        it('when genre in movie is not on genres list', (done) => {
-            expect(() =>
-                movieValidation.validate({
-                    title: 'Star Wars',
-                    year: 1977,
-                    runtime: 127,
-                    director: 'George’a Lucasa',
-                    actors:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    plot:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    genres: ['sc-fi'],
-                })
-            ).to.throw();
+        it('when property year is different type than number', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "title": "asd",
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":["action"],
+                    "year": "2015"
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal(
+                    generateRequiredTypeError('number', 'year').error
+                );
+            }
+            done();
+        });
+        it('when optional property plot is defined but her type is different than expected', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "title": "asd",
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":["action"],
+                    "year": 2015,
+                    "plot": ["asd","bcd"]
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal(
+                    generateRequiredTypeError('string', 'plot', false).error
+                );
+            }
+            done();
+        });
+        it('when property genres has zero length', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "title": "asd",
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":[],
+                    "year": 2015
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.equal('Genre has zero length');
+            }
+            done();
+        });
+        it('when property genres has values different than genres in database', (done) => {
+            try {
+                movieValidation.validate(
+                    JSON.parse(`
+                {
+                    "title": "asd",
+                    "runtime": 127,
+                    "director": "George’a Lucasa",
+                    "genres":["sci-fi"],
+                    "year": 2015
+                }
+                    `)
+                );
+            } catch (err) {
+                expect(err.error).to.contain(
+                    'Genre: sci-fi is not on the list of avaiable genres, avaiable types:'
+                );
+            }
             done();
         });
     });

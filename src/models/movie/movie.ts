@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Movie, MovieValidation } from '../../types/movie';
+import { Movie, MovieValidation, MovieInDB } from '../../types/movie';
 
 interface Data {
     movies: any[];
@@ -23,17 +23,18 @@ class MovieRepository {
         this.movieValidation = new MovieValidation(this.data.genres);
     }
 
-    addMovie(movie: Movie) {
+    addMovie(movie: Movie): MovieInDB {
         try {
             this.movieValidation.validate(movie);
         } catch (err) {
             throw err;
         }
-
-        this.data.movies.push({ id: this.idToSave, movie });
+        const movieToCreate: MovieInDB = { id: this.idToSave, ...movie };
+        this.data.movies.push(movieToCreate);
         const writer = fs.createWriteStream(this.filePath, 'utf8');
         writer.write(JSON.stringify(this.data, null, 3));
         this.idToSave += 1;
+        return movieToCreate;
     }
 }
 
