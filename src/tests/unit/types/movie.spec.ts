@@ -7,7 +7,46 @@ import {
 const movieValidation = new MovieValidation(['action']);
 
 describe('Movie Validation unit tests', () => {
-    describe('Should not throw error', () => {});
+    describe('Should not throw error', () => {
+        it('when required properties are defined', (done) => {
+            expect(() =>
+                movieValidation.validate({
+                    year: 1977,
+                    runtime: 127,
+                    director: 'George’a Lucasa',
+                    title: 'abc',
+                    genres: ['action'],
+                })
+            ).to.not.throw();
+            done();
+        });
+        it('when optional property is defined', (done) => {
+            expect(() =>
+                movieValidation.validate({
+                    year: 1977,
+                    runtime: 127,
+                    director: 'George’a Lucasa',
+                    title: 'abc',
+                    genres: ['action'],
+                    plot: 'asddsadsaadsdasdsa',
+                })
+            ).to.not.throw();
+            done();
+        });
+        it('when optional property is undefined', (done) => {
+            expect(() =>
+                movieValidation.validate({
+                    year: 1977,
+                    runtime: 127,
+                    director: 'George’a Lucasa',
+                    title: 'abc',
+                    genres: ['action'],
+                })
+            ).to.not.throw();
+            done();
+        });
+    });
+
     describe('Should return error', () => {
         it('when property genres is undefined', (done) => {
             try {
@@ -142,6 +181,41 @@ describe('Movie Validation unit tests', () => {
             } catch (err) {
                 expect(err.error).to.contain(
                     'Genre: sci-fi is not on the list of avaiable genres, avaiable types:'
+                );
+            }
+            done();
+        });
+
+        it('when property title is more than 255 characters', (done) => {
+            const title = new Array(257).join('t');
+            try {
+                movieValidation.validate({
+                    year: 1977,
+                    runtime: 127,
+                    director: 'George’a Lucasa',
+                    title,
+                    genres: ['action'],
+                });
+            } catch (err) {
+                expect(err.error).to.equal(
+                    `Title: ${title} is not valid, max 255 characters.`
+                );
+            }
+            done();
+        });
+        it('when property director is more than 255 characters', (done) => {
+            const director = new Array(257).join('d');
+            try {
+                movieValidation.validate({
+                    year: 1977,
+                    runtime: 127,
+                    director,
+                    title: 'abc',
+                    genres: ['action'],
+                });
+            } catch (err) {
+                expect(err.error).to.equal(
+                    `Director: ${director} is not valid, max 255 characters.`
                 );
             }
             done();
