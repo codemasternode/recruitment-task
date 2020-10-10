@@ -1,6 +1,7 @@
 type ValidationError = {
-    type: 'validation-error';
+    type: string;
     error: string;
+    code: 400;
 };
 
 const generateRequiredTypeError = (
@@ -13,6 +14,7 @@ const generateRequiredTypeError = (
     return {
         error,
         type: 'validation-error',
+        code: 400,
     };
 };
 
