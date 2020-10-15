@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { generateRequiredTypeError } from '../../../services/errors';
-import MovieValidation from '../../../services/validation/MovieValidation';
+import { generateRequiredTypeError } from '../../../../services/errors';
+import MovieValidation from '../../../../services/validation/MovieValidation';
 
 const movieValidation = new MovieValidation(['action']);
 
