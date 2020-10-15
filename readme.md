@@ -9,30 +9,31 @@ for it, however we don't need a database, we still need it as a file.
 
 1. We need to be able to add a new movie. Each movie should contain information about:
 
-- a list of genres (only predefined ones from db file) (required, array of predefined strings)
-- title (required, string, max 255 characters)
-- year (required, number)
-- runtime (required, number)
-- director (required, string, max 255 characters)
-- actors (optional, string)
-- plot (optional, string)
-- posterUrl (optional, string)
+-   a list of genres (only predefined ones from db file) (required, array of predefined strings)
+-   title (required, string, max 255 characters)
+-   year (required, number)
+-   runtime (required, number)
+-   director (required, string, max 255 characters)
+-   actors (optional, string)
+-   plot (optional, string)
+-   posterUrl (optional, string)
 
 Each field should be properly validated and meaningful error message should be return in case of invalid value.
 
-2. We also need an endpoint to return a random matching movie for us. What we want to do is to send a list of genres (this parameter is optional) and a duration of a movie we are looking for.
+2. We also need an endpoint that will return an array of movies (it might be a single movie) based on few conditions. The endpoint should take 2 optional query parameters:
 
-The special algorithm should first find all the movies that have all genres of our choice and runtime between <duration - 10> and <duration + 10>. Then it should repeat this algorithm for each genres combination. For example:
+-   duration
+-   an array of genres
 
-If we send a request with genres [Comedy, Fantasy, Crime] then the top hits should be movies that have all three of them, then there should be movies that have one of [Comedy, Fantasy], [comedy, crime], [Fantasy, Crime] and then those with Comedy only, Fantasy only and Crime only.
+If we don't provide any parameter, then it should return a single random movie.
 
-Of course we dont want to have duplicates.
+If we provide only duration parameter, then it should return a single random movie that has a runtime between <duration - 10> and <duration + 10>.
 
-If we dont provide genres parameter then we get a single random movie with a runtime between <duration - 10> and <duration + 10>.
+If we provide only genres parameter, then it should return all movies that contain at least one of the specified genres. Also movies should be orderd by a number of genres that match. For example if we send a request with genres [Comedy, Fantasy, Crime] then the top hits should be movies that have all three of them, then there should be movies that have one of [Comedy, Fantasy], [comedy, crime], [Fantasy, Crime] and then those with Comedy only, Fantasy only and Crime only.
 
-If we dont provide duration parameter then we should get all of the movie with specific genres.
+And the last one. If we provide both duration and genres parameter, then we should get the same result as for genres parameter only, but narrowed by a runtime. So we should return only those movies that contain at least one of the specified genres and have a runtime between <duration - 10> and <duration + 10>.
 
-If we dont provide any parameter, then we should get a single random movie.
+In any of those cases we don't want to have duplicates.
 
 ### Rules
 
@@ -40,7 +41,7 @@ If we dont provide any parameter, then we should get a single random movie.
 
 **Keep code clean**
 
-**The algorithm should be unit tested**
+**The code should be unit tested**
 
 **Remember about proper error handling**
 

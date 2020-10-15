@@ -5,7 +5,6 @@ import MovieValidation from '../../services/validation/MovieValidation';
 import { SearchRequestBody } from '../../types/search';
 import { SearchBodyValidation } from '../../services/validation/SearchBodyValidation';
 import { Node } from '../../types/node';
-import compareTwoNumber from '../../utility/compareTwoNumber';
 
 interface Data {
     movies: MovieInDB[];
@@ -57,46 +56,57 @@ class MovieRepository {
         });
 
         let node: Node;
-        const nodes = movies.map((movie) => {
+        const nodes = movies.reduce((nodes: Node[], movie) => {
             node = {
                 count: 0,
-                highest: undefined,
+                highest: -1,
                 value: movie,
             };
             searchRequestBody.genres?.forEach((genre, index) => {
                 if (movie.genres.includes(genre)) {
                     node.count++;
-                    if (node.highest === undefined) {
+                    if (node.highest === -1) {
                         node.highest = index;
                     }
                 }
             });
             if (node.count !== 0) {
-                return node;
+                nodes.push(node);
             }
-        });
+            return nodes;
+        }, []);
 
         nodes.sort((a, b) => {
-            return (
-                compareTwoNumber(a?.count, b?.count, -1) ||
-                compareTwoNumber(a?.highest, a?.highest, 1)
-            );
+            if (a.count > b.count) {
+                return -1;
+            } else if (a.count < b.count) {
+                return 1;
+            }
+
+            // Else go to the 2nd item
+            if (a.highest < b.highest) {
+                return -1;
+            } else if (a.highest > b.highest) {
+                return 1;
+            } else {
+                // nothing to split them
+                return 0;
+            }
         });
         movies = nodes.map((value) => value?.value);
         return movies;
     }
 
-    filterByRuntime(
+    filterByDuration(
         movies: MovieInDB[],
         searchRequestBody: SearchRequestBody
     ): MovieInDB[] {
         const filtered = movies.filter((value) => {
             return (
-                Number(value.runtime) - 10 < searchRequestBody.runtime &&
-                Number(value.runtime) + 10 > searchRequestBody.runtime
+                Number(value.runtime) - 10 < searchRequestBody.duration &&
+                Number(value.runtime) + 10 > searchRequestBody.duration
             );
         });
-        console.log(filtered);
         return filtered;
     }
 
@@ -104,28 +114,26 @@ class MovieRepository {
         searchRequestBody: SearchRequestBody
     ): MovieInDB | MovieInDB[] | null {
         SearchBodyValidation.validate(searchRequestBody);
-
         if (
-            searchRequestBody.runtime !== undefined &&
-            searchRequestBody.genres !== undefined
+            typeof searchRequestBody.duration !== 'undefined' &&
+            typeof searchRequestBody.genres !== 'undefined'
         ) {
-            const filteredByRuntime = this.filterByRuntime(
+            const filteredByRuntime = this.filterByDuration(
                 this.data.movies,
                 searchRequestBody
             );
             return this.filterByGenres(filteredByRuntime, searchRequestBody);
-        } else if (searchRequestBody.runtime !== undefined) {
-            const filteredMovies = this.filterByRuntime(
+        } else if (typeof searchRequestBody.duration !== 'undefined') {
+            const filteredMovies = this.filterByDuration(
                 this.data.movies,
                 searchRequestBody
             );
-            console.log(filteredMovies);
             return {
                 ...filteredMovies[
                     Math.floor(Math.random() * filteredMovies.length)
                 ],
             };
-        } else if (searchRequestBody.genres !== undefined) {
+        } else if (typeof searchRequestBody.genres !== 'undefined') {
             return this.filterByGenres(this.data.movies, searchRequestBody);
         } else {
             if (this.data.movies.length !== 0) {

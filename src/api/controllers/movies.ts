@@ -35,7 +35,6 @@ const searchMovie = (movieRepository: MovieRepository) => (
             });
         }
     } catch (err) {
-        console.log(err);
         res.status(err.code).send(err);
     }
 };

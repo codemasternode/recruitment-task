@@ -1,6 +1,6 @@
 interface SearchRequestBody {
     genres?: string[];
-    runtime: number;
+    duration?: number;
 }
 
 export { SearchRequestBody };

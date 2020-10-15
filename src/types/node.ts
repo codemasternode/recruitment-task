@@ -1,7 +1,9 @@
+import { MovieInDB } from './movie';
+
 type Node = {
     count: number;
-    highest: number | undefined;
-    value: any;
+    highest: number;
+    value: MovieInDB;
 };
 
 export { Node };

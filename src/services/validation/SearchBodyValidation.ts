@@ -2,14 +2,10 @@ import { SearchRequestBody } from '../../types/search';
 import { generateRequiredTypeError } from '../../types/error';
 
 class SearchBodyValidation {
-    static validate(searchRequestBody: SearchRequestBody) {
-        if (typeof searchRequestBody.runtime !== 'number') {
-            throw generateRequiredTypeError('number', 'runtime');
-        }
-
+    static validate(searchRequestBody: SearchRequestBody): void {
         if (Array.isArray(searchRequestBody.genres)) {
             searchRequestBody.genres.forEach((value) => {
-                if (typeof value === 'undefined') {
+                if (typeof value !== 'string') {
                     throw generateRequiredTypeError(
                         'array of string',
                         'genres',
@@ -17,6 +13,12 @@ class SearchBodyValidation {
                     );
                 }
             });
+        }
+        if (
+            typeof searchRequestBody.duration !== 'number' &&
+            typeof searchRequestBody.duration !== 'undefined'
+        ) {
+            throw generateRequiredTypeError('number', 'duration', false);
         }
     }
 }
