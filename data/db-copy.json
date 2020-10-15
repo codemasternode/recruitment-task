@@ -1,0 +1,87 @@
+{
+   "genres": [
+      "Comedy",
+      "Fantasy",
+      "Crime",
+      "Drama",
+      "Music",
+      "Adventure",
+      "History",
+      "Thriller",
+      "Animation",
+      "Family",
+      "Mystery",
+      "Biography",
+      "Action",
+      "Film-Noir",
+      "Romance",
+      "Sci-Fi",
+      "War",
+      "Western",
+      "Horror",
+      "Musical",
+      "Sport"
+   ],
+   "movies": [
+      {
+         "id": 1,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      },
+      {
+         "id": 2,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      },
+      {
+         "id": 3,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      },
+      {
+         "id": 4,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      },
+      {
+         "id": 5,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      },
+      {
+         "id": 6,
+         "title": "Star Wars",
+         "director": "George Lucas",
+         "genres": [
+            "Sci-Fi"
+         ],
+         "runtime": 127,
+         "year": 1998
+      }
+   ]
+}
