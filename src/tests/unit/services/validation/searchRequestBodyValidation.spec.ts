@@ -40,13 +40,10 @@ describe('Movie Validation unit tests', () => {
     describe('Should return error', () => {
         it('when property genres is different type than expected', (done) => {
             try {
-                SearchRequestBodyValidation.validate(
-                    JSON.parse(`
-                        {
-                            "genres": "120"
-                        }
-                    `)
-                );
+                SearchRequestBodyValidation.validate({
+                    // @ts-ignore
+                    genres: '120',
+                });
             } catch (err) {
                 expect(err.error).to.equal(
                     generateRequiredTypeError(
@@ -60,13 +57,10 @@ describe('Movie Validation unit tests', () => {
         });
         it('when property duration is different type than expected', (done) => {
             try {
-                SearchRequestBodyValidation.validate(
-                    JSON.parse(`
-                        {
-                            "duration": "120"
-                        }
-                    `)
-                );
+                SearchRequestBodyValidation.validate({
+                    // @ts-ignore
+                    duration: '120',
+                });
             } catch (err) {
                 expect(err.error).to.equal(
                     generateRequiredTypeError('number', 'duration', false).error
@@ -76,13 +70,10 @@ describe('Movie Validation unit tests', () => {
         });
         it('when property genres is array of not strings', (done) => {
             try {
-                SearchRequestBodyValidation.validate(
-                    JSON.parse(`
-                        {
-                            "genres": [1,2,3,4]
-                        }
-                    `)
-                );
+                SearchRequestBodyValidation.validate({
+                    // @ts-ignore
+                    genres: [1, 2, 3, 4],
+                });
             } catch (err) {
                 expect(err.error).to.equal(
                     generateRequiredTypeError(

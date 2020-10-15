@@ -16,7 +16,8 @@
         "build",
         "data",
         "dist",
-        "**/*.json"
+        "**/*.json",
+        "**/tests/unit"
     ],
     "include": [
       "**/*.ts"
