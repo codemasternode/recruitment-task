@@ -3,4 +3,4 @@ interface SearchRequestBody {
     duration?: number;
 }
 
-export { SearchRequestBody };
+export default SearchRequestBody;

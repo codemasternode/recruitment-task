@@ -218,6 +218,14 @@
             "genres": ["Sci-Fi"],
             "runtime": 127,
             "year": 1998
+        },
+        {
+            "id": 21,
+            "title": "Star Wars",
+            "director": "George Lucas",
+            "genres": ["Sci-Fi"],
+            "runtime": 127,
+            "year": 1998
         }
     ]
 }

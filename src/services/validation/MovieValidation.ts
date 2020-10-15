@@ -1,5 +1,5 @@
-import { Movie } from '../../types/movie';
-import { generateRequiredTypeError } from '../../types/error';
+import { Movie } from '../../modules/interfaces';
+import { generateRequiredTypeError } from '../errors';
 
 class MovieValidation {
     private genres: string[];

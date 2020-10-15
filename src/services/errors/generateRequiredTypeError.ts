@@ -1,8 +1,4 @@
-type ValidationError = {
-    type: string;
-    error: string;
-    code: 400;
-};
+import { ValidationError } from '../../modules/interfaces';
 
 const generateRequiredTypeError = (
     typeOfField: string,
@@ -18,4 +14,4 @@ const generateRequiredTypeError = (
     };
 };
 
-export { ValidationError, generateRequiredTypeError };
+export default generateRequiredTypeError;

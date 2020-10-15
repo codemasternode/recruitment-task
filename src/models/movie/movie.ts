@@ -1,15 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { Movie, MovieInDB } from '../../types/movie';
+import { Movie, MovieInDB, Node } from '../../modules/interfaces';
 import MovieValidation from '../../services/validation/MovieValidation';
-import { SearchRequestBody } from '../../types/search';
-import { SearchBodyValidation } from '../../services/validation/SearchBodyValidation';
-import { Node } from '../../types/node';
-
-interface Data {
-    movies: MovieInDB[];
-    genres: string[];
-}
+import { SearchRequestBody, Data } from '../../modules/interfaces';
+import { SearchRequestBodyValidation } from '../../services/validation';
 
 class MovieRepository {
     private filePath: string;
@@ -83,13 +77,11 @@ class MovieRepository {
                 return 1;
             }
 
-            // Else go to the 2nd item
             if (a.highest < b.highest) {
                 return -1;
             } else if (a.highest > b.highest) {
                 return 1;
             } else {
-                // nothing to split them
                 return 0;
             }
         });
@@ -103,7 +95,9 @@ class MovieRepository {
     ): MovieInDB[] {
         const filtered = movies.filter((value) => {
             return (
+                //@ts-ignore
                 Number(value.runtime) - 10 < searchRequestBody.duration &&
+                //@ts-ignore
                 Number(value.runtime) + 10 > searchRequestBody.duration
             );
         });
@@ -113,7 +107,7 @@ class MovieRepository {
     searchMovie(
         searchRequestBody: SearchRequestBody
     ): MovieInDB | MovieInDB[] | null {
-        SearchBodyValidation.validate(searchRequestBody);
+        SearchRequestBodyValidation.validate(searchRequestBody);
         if (
             typeof searchRequestBody.duration !== 'undefined' &&
             typeof searchRequestBody.genres !== 'undefined'

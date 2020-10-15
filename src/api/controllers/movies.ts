@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MovieInDB } from '../../types/movie';
+import { MovieInDB } from '../../modules/interfaces';
 import MovieRepository from '../../models/movie/movie';
 
 const createMovie = (movieRepository: MovieRepository) => (

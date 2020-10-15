@@ -1,7 +1,7 @@
-import { SearchRequestBody } from '../../types/search';
-import { generateRequiredTypeError } from '../../types/error';
+import { SearchRequestBody } from '../../modules/interfaces';
+import { generateRequiredTypeError } from '../../services/errors';
 
-class SearchBodyValidation {
+class SearchRequestBodyValidation {
     static validate(searchRequestBody: SearchRequestBody): void {
         if (Array.isArray(searchRequestBody.genres)) {
             searchRequestBody.genres.forEach((value) => {
@@ -23,4 +23,4 @@ class SearchBodyValidation {
     }
 }
 
-export { SearchBodyValidation };
+export default SearchRequestBodyValidation;

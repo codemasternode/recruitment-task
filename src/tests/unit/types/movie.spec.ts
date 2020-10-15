@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { generateRequiredTypeError } from '../../../types/error';
+import { generateRequiredTypeError } from '../../../services/errors';
 import MovieValidation from '../../../services/validation/MovieValidation';
 
 const movieValidation = new MovieValidation(['action']);
