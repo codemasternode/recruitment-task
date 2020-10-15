@@ -8,7 +8,10 @@
         "start:dev": "nodemon",
         "tsc": "tsc --project tsconfig.json",
         "build": "rimraf ./build && tsc",
-        "test": "mocha -r ts-node/register src/**/*.spec.ts"
+        "test": "mocha -r ts-node/register src/**/*.spec.ts",
+        "lint": "eslint . --ext .ts",
+        "lint-and-fix": "eslint . --ext .ts --fix",
+        "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
     },
     "keywords": [],
     "author": "",
@@ -22,10 +25,10 @@
         "@types/chai": "^4.2.13",
         "@types/mocha": "^8.0.3",
         "@types/node": "^14.11.8",
-        "@typescript-eslint/eslint-plugin": "^4.3.0",
-        "@typescript-eslint/parser": "^4.3.0",
+        "@typescript-eslint/eslint-plugin": "^4.4.1",
+        "@typescript-eslint/parser": "^4.4.1",
         "chai": "^4.2.0",
-        "eslint": "^7.10.0",
+        "eslint": "^7.11.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-config-prettier": "^6.12.0",
         "eslint-plugin-import": "^2.22.1",
@@ -41,7 +44,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged"
+            "pre-commit": "npm run prettier-format && npm run lint-and-fix && npm run lint"
         }
     },
     "dependencies": {

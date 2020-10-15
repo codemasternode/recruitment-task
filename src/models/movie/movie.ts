@@ -22,11 +22,7 @@ class MovieRepository {
     }
 
     addMovie(movie: Movie): MovieInDB {
-        try {
-            this.movieValidation.validate(movie);
-        } catch (err) {
-            throw err;
-        }
+        this.movieValidation.validate(movie);
         const movieToCreate: MovieInDB = { id: this.idToSave, ...movie };
         this.data.movies.push(movieToCreate);
         const writer = fs.createWriteStream(this.filePath, 'utf8');
